@@ -16,23 +16,31 @@ export class RegisterComponent {
     private userService: UserService,
     private router: Router
   ) {
-    this.signupForm = this.fb.group(
-      {
-        username: ['', Validators.required],
-        password: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
-        email: ['', Validators.required]
-      },
-      {
-        validators: this.passwordMatchValidator,
-      }
-    );
   }
 
-  passwordMatchValidator(form: FormGroup) {
-    return form.get('password').value === form.get('confirmPassword').value
-      ? null
-      : { mismatch: true };
+  ngOnInit(): void {
+    this.signupForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(12),
+        Validators.pattern('^(?=.*[A-Z]).{8,12}$')
+      ]],
+      confirmPassword: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  isFieldInvalid(field: string): boolean {
+    const control = this.signupForm.get(field);
+    return control?.invalid && (control?.dirty || control?.touched);
+  }
+
+  passwordMatchValidator(group: FormGroup): any {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { notMatching: true };
   }
 
   onSubmit() {
@@ -45,10 +53,7 @@ export class RegisterComponent {
       password: this.signupForm.value.password,
       role: "User"
     };
-    this.userService.register(user).subscribe((response) => {
-      //Rajvi - add validation for password to contain one capital field, min 8 to max 12
-      //Rajvi - add validation for email field to contain only email
-      //Rajvi - if status 200 show account reggistered msg else show something went wrong message
+    this.userService.register(user).subscribe(() => {
       this.router.navigate(['/login']);
       this.signupForm.reset()
     });

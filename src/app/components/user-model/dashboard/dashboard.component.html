@@ -1,1 +1,74 @@
-<p>dashboard works!</p>
+<div class="container my-4">
+    <div class="d-flex justify-content-between">
+        <div class="btn-group mb-4" role="group" aria-label="View Toggle">
+            <button type="button" class="btn btn-primary" [ngStyle]="{'opacity': viewMode == 'list' ? '1' : '0.7'}"
+                (click)="viewMode = 'card'">Card View</button>
+            <button type="button" class="btn btn-primary" [ngStyle]="{'opacity': viewMode == 'card' ? '1' : '0.7'}"
+                (click)="viewMode = 'list'">List View</button>
+        </div>
+    </div>
+
+    <div class="search-container mb-3">
+        <input type="text" class="form-control" [(ngModel)]="searchQuery" (ngModelChange)="performSearch()"
+            placeholder="Search by Model Name or Model Code">
+    </div>
+
+    <ng-container>
+        <!-- Card View -->
+        <div *ngIf="viewMode === 'card'" class="row">
+            <div class="col-md-4" *ngFor="let car of filteredCarData">
+                <div class="card mb-4">
+                    <ngb-carousel>
+                        <ng-template ngbSlide *ngFor="let image of car.images.split(','); let i = index">
+                            <img [src]="baseUrl + '/' + image.trim()" class="d-block w-100"
+                                alt="{{ car.modelName }} image {{ i + 1 }}">
+                        </ng-template>
+                    </ngb-carousel>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">{{ car.modelName }} ({{ car.brand }})</h5>
+                        </div>
+                        <p class="card-text">Class: {{ car.class }}</p>
+                        <p class="card-text">Price: {{ car.price | currency }}</p>
+                        <p class="card-text">Model Code: {{ car.modelCode }}</p>
+                        <p class="card-text">Description: {{ car.description }}</p>
+                        <p class="card-text">Manufacturing Date: {{ car.dateOfManufacturing | date }}</p>
+                        <p class="card-text">Features: {{ car.features }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- List View -->
+        <div *ngIf="viewMode === 'list'" class="list-group">
+            <a *ngFor="let car of filteredCarData" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+
+                    <h5 class="card-title">{{ car.modelName }} ({{ car.brand }})</h5>
+                </div>
+
+                <div class="d-flex w-100 justify-content-between mt-4">
+                    <div>
+                        <p class="mb-1">Class: {{ car.class }}</p>
+                        <p class="mb-1">Price: {{ car.price | currency }}</p>
+                        <p class="card-text">Model Code: {{ car.modelCode }}</p>
+                        <p class="mb-1">Description: {{ car.description }}</p>
+                        <p class="mb-1">Manufacturing Date: {{ car.dateOfManufacturing | date }}</p>
+                        <p class="mb-1">Features: {{ car.features }}</p>
+                    </div>
+                    <div class="carList">
+                        <ngb-carousel>
+                            <ng-template ngbSlide *ngFor="let image of car.images.split(','); let i = index">
+                                <img [src]="baseUrl + '/' + image.trim()" class="d-block w-100"
+                                    alt="{{ car.modelName }} image {{ i + 1 }}">
+                            </ng-template>
+                        </ngb-carousel>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="filteredCarData.length === 0">
+        <p class="text-center">No car data found.</p>
+    </ng-container>
+</div>

@@ -9,7 +9,6 @@ export class AuthService {
   constructor() { }
 
   public getAuthorizationHeader(): HttpHeaders {
-    // Creates header for the auth requests.
     let headers: HttpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
     headers = headers.append('Accept', 'application/json');
     const currentUser = this.getToken();

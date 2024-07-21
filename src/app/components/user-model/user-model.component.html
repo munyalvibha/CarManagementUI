@@ -1,1 +1,7 @@
-<p>user-model works!</p>
+<div class="container my-4">
+    <div class="d-flex justify-content-between mb-4">
+        <h5>Welcome {{userName}}</h5>
+        <button class="btn btn-danger mx-2" (click)="logout()">Logout</button>
+    </div>
+</div>
+<router-outlet></router-outlet>

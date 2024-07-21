@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from 'src/app/services/auth.service';
 import { CarModelService } from 'src/app/services/car-model.service';
 import { CarModelListComponent } from '../car-model-list/car-model-list.component';
 
@@ -26,7 +25,7 @@ export class CarModelFormComponent implements OnInit {
       brand: ['', Validators.required],
       class: ['', Validators.required],
       modelName: ['', Validators.required],
-      modelCode: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      modelCode: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^[a-zA-Z0-9]{10}$')]],
       description: ['', Validators.required],
       features: ['', Validators.required],
       price: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],

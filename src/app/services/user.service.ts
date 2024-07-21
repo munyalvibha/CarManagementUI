@@ -3,12 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-interface userModel {
-  username?: string;
-  passowrd?: string;
-  role?: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -17,11 +11,13 @@ export class UserService {
   private baseUrl = environment.baseUrl;
 
   constructor(private http: HttpClient) {
-    this.userRole = JSON.parse(localStorage.getItem("current_user")).role;
+    if (localStorage.getItem("current_user")) {
+      this.userRole = JSON.parse(localStorage.getItem("current_user")).role;
+    }
   }
 
   isUser(): boolean {
-    return this.userRole === 'user';
+    return this.userRole === 'User';
   }
 
   isAdmin(): boolean {
@@ -39,11 +35,11 @@ export class UserService {
     localStorage.removeItem('current_user');
   }
 
-  login(user): Observable<userModel[]> {
-    return this.http.post<userModel[]>(this.baseUrl + '/Account/login', user);
+  login(user) {
+    return this.http.post(this.baseUrl + '/api/Account/login', user);
   }
 
-  register(user): Observable<userModel[]> {
-    return this.http.post<userModel[]>(this.baseUrl + '/Account/register', user);
+  register(user) {
+    return this.http.post(this.baseUrl + '/api/Account/register', user);
   }
 }
