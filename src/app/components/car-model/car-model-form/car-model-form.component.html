@@ -1,0 +1,137 @@
+<div class="modal-header">
+  <h5 class="modal-title">Car Model Form</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close('Close click')"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="carModelForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="brand" class="form-label">Brand</label>
+        <select id="brand" formControlName="brand" class="form-select"
+          [ngClass]="{'is-invalid': isFieldInvalid('brand')}">
+          <option value="">Select a brand</option>
+          <option value="Audi">Audi</option>
+          <option value="Jaguar">Jaguar</option>
+          <option value="Land Rover">Land Rover</option>
+          <option value="Renault">Renault</option>
+        </select>
+        <div *ngIf="isFieldInvalid('brand')" class="invalid-feedback">
+          Brand is required.
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="class" class="form-label">Class</label>
+        <select id="class" formControlName="class" class="form-select"
+          [ngClass]="{'is-invalid': isFieldInvalid('carClass')}">
+          <option value="">Select a class</option>
+          <option value="A-Class">A-Class</option>
+          <option value="B-Class">B-Class</option>
+          <option value="C-Class">C-Class</option>
+        </select>
+        <div *ngIf="isFieldInvalid('class')" class="invalid-feedback">
+          Class is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="modelName" class="form-label">Model Name</label>
+        <input id="modelName" formControlName="modelName" type="text" class="form-control"
+          [ngClass]="{'is-invalid': isFieldInvalid('modelName')}">
+        <div *ngIf="isFieldInvalid('modelName')" class="invalid-feedback">
+          Model Name is required.
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="modelCode" class="form-label">Model Code</label>
+        <input id="modelCode" formControlName="modelCode" type="text" class="form-control"
+          [ngClass]="{'is-invalid': isFieldInvalid('modelCode')}">
+        <div *ngIf="isFieldInvalid('modelCode')" class="invalid-feedback">
+          Model Code is required and should be 10 alphanumeric characters.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea id="description" formControlName="description" class="form-control"
+        [ngClass]="{'is-invalid': isFieldInvalid('description')}"></textarea>
+      <div *ngIf="isFieldInvalid('description')" class="invalid-feedback">
+        Description is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="features" class="form-label">Features</label>
+      <textarea id="features" formControlName="features" class="form-control"
+        [ngClass]="{'is-invalid': isFieldInvalid('features')}"></textarea>
+      <div *ngIf="isFieldInvalid('features')" class="invalid-feedback">
+        Features are required.
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col">
+        <label for="price" class="form-label">Price</label>
+        <input id="price" formControlName="price" type="number" class="form-control"
+          [ngClass]="{'is-invalid': isFieldInvalid('price')}">
+        <div *ngIf="isFieldInvalid('price')" class="invalid-feedback">
+          Price is required.
+        </div>
+      </div>
+
+      <div class="col">
+        <label for="dateOfManufacturing" class="form-label">Date of Manufacturing</label>
+        <input id="dateOfManufacturing" formControlName="dateOfManufacturing" type="date" class="form-control"
+          [ngClass]="{'is-invalid': isFieldInvalid('dateOfManufacturing')}">
+        <div *ngIf="isFieldInvalid('dateOfManufacturing')" class="invalid-feedback">
+          Date of Manufacturing is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="sortOrder" class="form-label">Sort Order</label>
+      <input id="sortOrder" formControlName="sortOrder" type="number" class="form-control"
+        [ngClass]="{'is-invalid': isFieldInvalid('sortOrder')}">
+      <div *ngIf="isFieldInvalid('sortOrder')" class="invalid-feedback">
+        Sort Order cannot be negative value.
+      </div>
+    </div>
+
+    <div class="mb-3" [ngStyle]="{'display': carDetails ? 'none' : 'block'}">
+      <label for="images" class="form-label">Images</label>
+      <input id="images" type="file" (change)="onFileChange($event)" multiple class="form-control"
+        [ngClass]="{'is-invalid': isFieldInvalid('images')}">
+      <div *ngIf="isFieldInvalid('images')" class="invalid-feedback">
+        At least one image is required.
+      </div>
+      <!-- <div *ngFor="let img of imagePreviews" class="mt-2">
+        <img [src]="img" alt="Image preview" class="img-thumbnail" width="100">
+      </div> -->
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!carModelForm.valid">Submit</button>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+</div>
+
+
+<!-- src/app/app.component.html -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Bootstrap</strong>
+      <small>Just now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Hello, world! This is a toast message.
+    </div>
+  </div>
+</div>
